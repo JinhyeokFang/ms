@@ -1063,7 +1063,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     </collation>
     <schema id="288" parent="1" name="database">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2025-01-07.14:21:03</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2025-01-26.09:57:25</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="289" parent="1" name="information_schema">
@@ -1100,56 +1100,179 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
-    <table id="298" parent="288" name="user_entity">
+    <table id="298" parent="288" name="review_entity">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="299" parent="288" name="user_entity_seq">
+    <table id="299" parent="288" name="ticket_entity">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <column id="300" parent="298" name="id">
+    <table id="300" parent="288" name="user_entity">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <table id="301" parent="288" name="user_entity_seq">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <column id="302" parent="298" name="id">
+      <AutoIncrement>1</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="301" parent="298" name="created_at">
-      <DasType>datetime(6)|0s</DasType>
+    <column id="303" parent="298" name="uuid">
+      <DasType>text|0s</DasType>
+      <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="302" parent="298" name="updated_at">
-      <DasType>datetime(6)|0s</DasType>
+    <column id="304" parent="298" name="content">
+      <DasType>text|0s</DasType>
+      <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="303" parent="298" name="email">
-      <DasType>varchar(255)|0s</DasType>
+    <column id="305" parent="298" name="ticket_id">
+      <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="304" parent="298" name="username">
-      <DasType>varchar(255)|0s</DasType>
+    <column id="306" parent="298" name="user_id">
+      <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <index id="305" parent="298" name="PRIMARY">
+    <column id="307" parent="298" name="created_at">
+      <DasType>timestamp|0s</DasType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>6</Position>
+    </column>
+    <column id="308" parent="298" name="updated_at">
+      <DasType>timestamp|0s</DasType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+      <NotNull>1</NotNull>
+      <OnUpdate>CURRENT_TIMESTAMP</OnUpdate>
+      <Position>7</Position>
+    </column>
+    <index id="309" parent="298" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="306" parent="298" name="UK2jsk4eakd0rmvybo409wgwxuw">
-      <ColNames>username</ColNames>
-      <Type>btree</Type>
-      <Unique>1</Unique>
-    </index>
-    <key id="307" parent="298" name="PRIMARY">
+    <key id="310" parent="298" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <key id="308" parent="298" name="UK2jsk4eakd0rmvybo409wgwxuw">
+    <column id="311" parent="299" name="id">
+      <AutoIncrement>1</AutoIncrement>
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="312" parent="299" name="uuid">
+      <DasType>varchar(36)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="313" parent="299" name="name">
+      <DasType>varchar(255)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="314" parent="299" name="created_at">
+      <DasType>timestamp|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <column id="315" parent="299" name="updated_at">
+      <DasType>timestamp|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+    </column>
+    <column id="316" parent="299" name="created_by">
+      <DasType>varchar(255)|0s</DasType>
+      <Position>6</Position>
+    </column>
+    <column id="317" parent="299" name="updated_by">
+      <DasType>varchar(255)|0s</DasType>
+      <Position>7</Position>
+    </column>
+    <column id="318" parent="299" name="version">
+      <DasType>int|0s</DasType>
+      <DefaultExpression>0</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>8</Position>
+    </column>
+    <index id="319" parent="299" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <index id="320" parent="299" name="uuid">
+      <ColNames>uuid</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <index id="321" parent="299" name="name">
+      <ColNames>name</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="322" parent="299" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <key id="323" parent="299" name="uuid">
+      <UnderlyingIndexName>uuid</UnderlyingIndexName>
+    </key>
+    <key id="324" parent="299" name="name">
+      <UnderlyingIndexName>name</UnderlyingIndexName>
+    </key>
+    <column id="325" parent="300" name="id">
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="326" parent="300" name="created_at">
+      <DasType>datetime(6)|0s</DasType>
+      <Position>2</Position>
+    </column>
+    <column id="327" parent="300" name="updated_at">
+      <DasType>datetime(6)|0s</DasType>
+      <Position>3</Position>
+    </column>
+    <column id="328" parent="300" name="email">
+      <DasType>varchar(255)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <column id="329" parent="300" name="username">
+      <DasType>varchar(255)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+    </column>
+    <index id="330" parent="300" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <index id="331" parent="300" name="UK2jsk4eakd0rmvybo409wgwxuw">
+      <ColNames>username</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="332" parent="300" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <key id="333" parent="300" name="UK2jsk4eakd0rmvybo409wgwxuw">
       <UnderlyingIndexName>UK2jsk4eakd0rmvybo409wgwxuw</UnderlyingIndexName>
     </key>
-    <column id="309" parent="299" name="next_val">
+    <column id="334" parent="301" name="next_val">
       <DasType>bigint|0s</DasType>
       <Position>1</Position>
     </column>

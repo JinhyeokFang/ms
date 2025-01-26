@@ -1,3 +1,13 @@
 spring:
   application:
     name: review
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS}
+    consumer:
+      group-id: review-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        spring.json.trusted.packages: uk.jinhy.ms.api.core.review.application.dto
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer

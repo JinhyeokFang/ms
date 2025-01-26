@@ -10,7 +10,7 @@ import uk.jinhy.ms.api.core.review.presentation.dto.CreateReviewRequestDto;
 
 import java.util.List;
 
-@FeignClient(name = "REVIEW-SERVICE", url = "http://review-service")
+@FeignClient(name = "REVIEW-SERVICE", url = "${spring.microservices.review.url}")
 public interface ReviewServiceClient {
     @GetMapping("/ticket/{ticketId}")
     List<Review> getReviewByTicketId(@PathVariable("ticketId") int ticketId);

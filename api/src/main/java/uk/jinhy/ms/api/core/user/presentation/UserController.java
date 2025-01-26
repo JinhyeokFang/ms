@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import uk.jinhy.ms.api.core.user.domain.User;
 
 @RequestMapping(
-        value = "/user",
+        value = "/",
         produces = "application/json")
 public interface UserController {
     @GetMapping("")

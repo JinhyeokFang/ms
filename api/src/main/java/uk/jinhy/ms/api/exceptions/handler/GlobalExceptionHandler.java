@@ -29,6 +29,8 @@ public class GlobalExceptionHandler {
     @ResponseStatus(INTERNAL_SERVER_ERROR)
     @ExceptionHandler(RuntimeException.class)
     public @ResponseBody ErrorResponseDto handleUnexpectedException(RuntimeException ex) {
+        log.error(ex.getMessage(), ex);
+        log.error(ex.getCause().getMessage(), ex);
         return new ErrorResponseDto("UNEXPECTED_ERROR", ex.getMessage());
     }
 

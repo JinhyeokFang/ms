@@ -19,7 +19,7 @@ public class ReviewEntity extends BaseEntity {
     @Column(unique = true, nullable = false)
     private String uuid;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String content;
 
     @Column(nullable = false)

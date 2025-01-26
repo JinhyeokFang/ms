@@ -3,24 +3,32 @@ version: '3.8'
 services:
   mysql:
     image: mysql:8.0
+    container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: database
       TZ: Asia/Seoul
     ports:
       - "3306:3306"
+    command:
+      - --bind-address=0.0.0.0
+      - --read-only=0
+      - --super-read-only=0
+      - --init-file=/docker-entrypoint-initdb.d/init.sql
     volumes:
       - mysql-data:/var/lib/mysql
-    command:
-        - --bind-address=0.0.0.0
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-ppassword" ]
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - microservices-network
 
   redis:
     image: redis:7.0
+    container_name: redis
     ports:
       - "6379:6379"
     volumes:
@@ -30,24 +38,40 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - microservices-network
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.3.0
+    container_name: zookeeper
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+      ZOOKEEPER_MAX_CLIENT_CNXNS: 60
+      ZOOKEEPER_ADMIN_ENABLE_SERVER: 'false'
+      ZOOKEEPER_4LW_COMMANDS_WHITELIST: '*'
     ports:
       - "2181:2181"
+    volumes:
+      - zookeeper-data:/var/lib/zookeeper/data
+      - zookeeper-logs:/var/lib/zookeeper/log
     healthcheck:
-      test: ["CMD", "nc", "-z", "localhost", "2181"]
+      test: echo ruok | nc localhost 2181 || exit 1
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 10s
+    networks:
+      - microservices-network
 
   kafka:
     image: confluentinc/cp-kafka:7.3.0
+    container_name: kafka
     depends_on:
-      - zookeeper
+      zookeeper:
+        condition: service_healthy
     ports:
       - "9092:9092"
     environment:
@@ -57,18 +81,32 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_NUM_PARTITIONS: 3
+      KAFKA_LOG_RETENTION_HOURS: 168
+      KAFKA_HEAP_OPTS: "-Xmx512M -Xms512M"
+      KAFKA_JMX_PORT: 9101
+    volumes:
+      - kafka-data:/var/lib/kafka/data
     healthcheck:
-      test: ["CMD", "nc", "-z", "localhost", "9092"]
+      test: nc -z localhost 9092 || exit 1
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 15s
+    networks:
+      - microservices-network
 
   user-service:
     image: jinhyeokfang/ms-user:latest
+    container_name: user-service
     pull_policy: always
     depends_on:
-      - mysql
-      - kafka
+      mysql:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/database
       SPRING_DATASOURCE_USERNAME: root
@@ -82,13 +120,21 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 40s
+    networks:
+      - microservices-network
 
   ticket-service:
     image: jinhyeokfang/ms-ticket:latest
+    container_name: ticket-service
     pull_policy: always
     depends_on:
-      - mysql
-      - kafka
+      mysql:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/database
       SPRING_DATASOURCE_USERNAME: root
@@ -102,14 +148,21 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 40s
+    networks:
+      - microservices-network
 
   review-service:
     image: jinhyeokfang/ms-review:latest
+    container_name: review-service
     pull_policy: always
     depends_on:
-      - mysql
-      - kafka
-      - redis
+      mysql:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/database
       SPRING_DATASOURCE_USERNAME: root
@@ -123,14 +176,21 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 40s
+    networks:
+      - microservices-network
 
   ticket-composite-service:
     image: jinhyeokfang/ms-ticket-composite:latest
+    container_name: ticket-composite-service
     pull_policy: always
     depends_on:
-      - ticket-service
-      - review-service
-      - user-service
+      user-service:
+        condition: service_healthy
+      ticket-service:
+        condition: service_healthy
+      review-service:
+        condition: service_healthy
     environment:
       USER_SERVICE_URL: http://user-service:8080
       TICKET_SERVICE_URL: http://ticket-service:8080
@@ -144,7 +204,17 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 40s
+    networks:
+      - microservices-network
+
+networks:
+  microservices-network:
+    driver: bridge
 
 volumes:
   mysql-data:
   redis-data:
+  zookeeper-data:
+  zookeeper-logs:
+  kafka-data:

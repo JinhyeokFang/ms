@@ -1,10 +1,11 @@
 package uk.jinhy.ms.microservices.review.application;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uk.jinhy.ms.api.core.review.application.ReviewService;
-import uk.jinhy.ms.api.core.review.application.dto.SaveReviewDto;
+import uk.jinhy.ms.api.core.review.application.dto.ReviewEvent;
 import uk.jinhy.ms.api.core.review.domain.Review;
 import uk.jinhy.ms.microservices.review.common.ErrorCode;
 import uk.jinhy.ms.microservices.review.domain.ReviewEntity;
@@ -22,7 +23,8 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Review getReviewByUuid(String uuid) {
-        ReviewEntity reviewEntity = reviewRepository.findByUuid(uuid).orElseThrow(ErrorCode.REVIEW_NOT_FOUND::throwException);
+        ReviewEntity reviewEntity = reviewRepository.findByUuid(uuid)
+                .orElseThrow(ErrorCode.REVIEW_NOT_FOUND::throwException);
         return reviewEntityMapper.entityToReview(reviewEntity);
     }
 
@@ -35,20 +37,29 @@ public class ReviewServiceImpl implements ReviewService {
                 .toList();
     }
 
-    @Override
     @Transactional
-    public void saveReview(SaveReviewDto dto) {
+    @KafkaListener(topics = "reviews", groupId = "review-group")
+    public void processReviewEvent(ReviewEvent event) {
+        switch (event.getType()) {
+            case CREATE -> handleCreateReview(event);
+            case DELETE -> handleDeleteReview(event);
+        }
+    }
+
+    @Transactional
+    public void handleCreateReview(ReviewEvent event) {
         ReviewEntity reviewEntity = ReviewEntity.builder()
-                .userId(dto.getUserId())
-                .ticketId(dto.getTicketId())
-                .content(dto.getContent())
+                .userId(event.getUserId())
+                .ticketId(event.getTicketId())
+                .content(event.getContent())
                 .build();
         reviewRepository.save(reviewEntity);
     }
 
-    @Override
     @Transactional
-    public void deleteReview(int id) {
-        reviewRepository.deleteById(id);
+    public void handleDeleteReview(ReviewEvent event) {
+        ReviewEntity review = reviewRepository.findByUuid(event.getReviewId())
+                .orElseThrow(ErrorCode.REVIEW_NOT_FOUND::throwException);
+        reviewRepository.delete(review);
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import uk.jinhy.ms.api.core.user.domain.User;
 
-@FeignClient(name = "USER-SERVICE", url = "http://user-service")
+@FeignClient(name = "USER-SERVICE", url = "${spring.microservices.user.url}")
 public interface UserServiceClient {
     @GetMapping("")
     User getUserByUsername(@RequestParam("username") String username);

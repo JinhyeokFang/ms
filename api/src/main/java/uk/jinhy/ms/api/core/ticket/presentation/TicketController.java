@@ -6,9 +6,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import uk.jinhy.ms.api.core.ticket.domain.Ticket;
 
 @RequestMapping(
-        value = "/ticket",
+        value = "/",
         produces = "application/json")
 public interface TicketController {
     @GetMapping("")
-    Ticket getTicket(@RequestParam("name") String name, @RequestParam("uuid") String uuid);
+    Ticket getTicket(
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "uuid", required = false) String uuid);
 }

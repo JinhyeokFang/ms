@@ -2,12 +2,11 @@ package uk.jinhy.ms.api.core.review.presentation;
 
 import org.springframework.web.bind.annotation.*;
 import uk.jinhy.ms.api.core.review.domain.Review;
-import uk.jinhy.ms.api.core.review.presentation.dto.CreateReviewRequestDto;
 
 import java.util.List;
 
 @RequestMapping(
-        value = "/review",
+        value = "/",
         produces = "application/json")
 public interface ReviewController {
     @GetMapping("")
@@ -15,10 +14,4 @@ public interface ReviewController {
 
     @GetMapping("/{uuid}")
     Review getReviewByUuid(@PathVariable("uuid") String uuid);
-
-    @PostMapping("")
-    void createReview(CreateReviewRequestDto review);
-
-    @DeleteMapping("/{id}")
-    void deleteReviewById(@PathVariable("id") int id);
 }
