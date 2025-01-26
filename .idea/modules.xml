@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ms.iml" filepath="$PROJECT_DIR$/.idea/modules/ms.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/api/ms.api.iml" filepath="$PROJECT_DIR$/.idea/modules/api/ms.api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/api/ms.api.main.iml" filepath="$PROJECT_DIR$/.idea/modules/api/ms.api.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/api/ms.api.test.iml" filepath="$PROJECT_DIR$/.idea/modules/api/ms.api.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/microservices/ms.microservices.iml" filepath="$PROJECT_DIR$/.idea/modules/microservices/ms.microservices.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/microservices/review/ms.microservices.review.iml" filepath="$PROJECT_DIR$/.idea/modules/microservices/review/ms.microservices.review.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/microservices/review/ms.microservices.review.main.iml" filepath="$PROJECT_DIR$/.idea/modules/microservices/review/ms.microservices.review.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/microservices/review/ms.microservices.review.test.iml" filepath="$PROJECT_DIR$/.idea/modules/microservices/review/ms.microservices.review.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/microservices/ticket/ms.microservices.ticket.iml" filepath="$PROJECT_DIR$/.idea/modules/microservices/ticket/ms.microservices.ticket.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/microservices/ticket-composite/ms.microservices.ticket-composite.iml" filepath="$PROJECT_DIR$/.idea/modules/microservices/ticket-composite/ms.microservices.ticket-composite.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/microservices/ticket-composite/ms.microservices.ticket-composite.main.iml" filepath="$PROJECT_DIR$/.idea/modules/microservices/ticket-composite/ms.microservices.ticket-composite.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/microservices/ticket-composite/ms.microservices.ticket-composite.test.iml" filepath="$PROJECT_DIR$/.idea/modules/microservices/ticket-composite/ms.microservices.ticket-composite.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/microservices/ticket/ms.microservices.ticket.main.iml" filepath="$PROJECT_DIR$/.idea/modules/microservices/ticket/ms.microservices.ticket.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/microservices/ticket/ms.microservices.ticket.test.iml" filepath="$PROJECT_DIR$/.idea/modules/microservices/ticket/ms.microservices.ticket.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/microservices/user/ms.microservices.user.iml" filepath="$PROJECT_DIR$/.idea/modules/microservices/user/ms.microservices.user.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/microservices/user/ms.microservices.user.main.iml" filepath="$PROJECT_DIR$/.idea/modules/microservices/user/ms.microservices.user.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/microservices/user/ms.microservices.user.test.iml" filepath="$PROJECT_DIR$/.idea/modules/microservices/user/ms.microservices.user.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/util/ms.util.iml" filepath="$PROJECT_DIR$/.idea/modules/util/ms.util.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/util/ms.util.main.iml" filepath="$PROJECT_DIR$/.idea/modules/util/ms.util.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/util/ms.util.test.iml" filepath="$PROJECT_DIR$/.idea/modules/util/ms.util.test.iml" />
+    </modules>
+  </component>
+</project>
